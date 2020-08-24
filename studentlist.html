@@ -1,10 +1,17 @@
 <html>
     <head><title></title>
         <link rel="stylesheet" type="text/css" href="style.css">
- 
+      <script>
+         var dataSource = [["20132627","Yousef Samir Allam", "Faculty of Computers and Information Technology","20132627.png"],
+                           ["20190000","xyz","Faculty 2","20190000.png"],
+                           ["20181877","Abdalla Ahmed Elsayed Ahmed", "Faculty of Computers and Information Technology","20181877.png"] ];
+
+                          // document.writeln("<h1>Heading</h1>");
+           
+      </script>
     </head>
 
-    <body>
+    <body onload="init();">
         <nav>
             <ul>
                 <li ><a href="index.html"  >Home</a></li>
@@ -24,98 +31,13 @@
             <svg  focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
            </div>
         
-        <input type="search" class="searchbox">
+        <input type="search" class="searchbox" id="txtSearch" oninput="mySearch()">
       
             
     </div>
 
-<table border="1">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Faculty</td>
-            <td>Image</td>
+    <div id="myTable"></div>
 
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            
-            <td colspan="2">
-        <ol>
-
-            <li>20132627</li>
-            <li> Yousef Samir Allam</li>
-        
-        </ol>    
-         
-        
-        </td>
-          
-            <td>Faculty of Computers and Information Technology</td>
-            <td><img src="images\20132627.png" width="60" height="60" alt="20132627.png" ></td>
-        </tr>
-        <tr>
-            
-            <td colspan="2">
-        <ol>
-
-            <li>20132627</li>
-            <li> Yousef Samir Allam</li>
-        
-        </ol>    
-         
-        
-        </td>
-          
-            <td>Faculty of Computers and Information Technology</td>
-            <td><img src="images\20132627.png" width="60" height="60" alt="20132627.png" ></td>
-        </tr>
- 
-        <tr>
-            
-            <td colspan="2">
-        <ol>
-
-            <li>20132627</li>
-            <li> Yousef Samir Allam</li>
-        
-        </ol>    
-         
-        
-        </td>
-          
-            <td>Faculty of Computers and Information Technology</td>
-            <td><img src="images\20132627.png" width="60" height="60" alt="20132627.png" ></td>
-        </tr>
- 
-        <tr>
-            
-            <td colspan="2">
-        <ol>
-
-            <li>20132627</li>
-            <li> Yousef Samir Allam</li>
-        
-        </ol>    
-         
-        
-        </td>
-          
-            <td>Faculty of Computers and Information Technology</td>
-            <td><img src="images\20132627.png" width="60" height="60" alt="20132627.png" ></td>
-        </tr>
- 
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="4">
-                Total No of Students: 1
-            </td>
-        </tr>
-    </tfoot>
-</table>
 </section>
 <hr/>
 <!--footer-->
@@ -123,5 +45,132 @@
 <a href="mailto:20132627@fue.edu.eg">contact us</a>
 <!--#footer-->
 
+<script>
+
+        function init()
+        {
+            var table ="";
+
+table  += "<table border='1'>" +
+          "<thead>"+
+          "<tr>"+
+            "  <td>ID</td>"+
+            " <td>Name</td>"+
+            " <td>Faculty</td>"+
+            " <td>Image</td>"+
+            "</tr>"+
+           "</thead>"+
+           "<tbody>";
+           //table body
+           var counter= 0;
+           for (var i= 0;i <dataSource.length; i++)
+           {
+               var studentId = dataSource[i][0];
+               var studentName= dataSource[i][1];
+               var studentFaculty = dataSource[i][2];
+               var studentImagePath = dataSource[i][3];
+
+            table+= "<tr>";
+            table+= "<td>"+studentId+"</td>";
+            table+= "<td>"+studentName+"</td>";
+            table+= "<td>"+studentFaculty+"</td>";
+            table+= "<td><img src='images\\"+studentImagePath+"' width='60px' height='60px' alt='image of" +studentName+ "' ></td>";                 
+            table+="</tr>";      
+            
+            counter++;
+           }
+           //#table body
+table+="</tbody>";
+table+=    " <tfoot>"+
+    "  <tr>"+
+        " <td colspan='4'>"+
+            "     Total No of Students: "+counter+
+            "   </td>"+
+            "  </tr>"+
+            "    </tfoot>"+
+            "</table>";
+
+  document.getElementById('myTable').innerHTML  = table;
+
+        }
+
+        function mySearch()
+        {
+         var input = document.getElementById('txtSearch').value;
+         console.log(input);
+       searchAlgorithm(input);
+
+
+        }
+
+        function searchAlgorithm(input)
+        {
+            var flat = [].concat.apply([],dataSource);
+            console.log(flat);
+            var col = flat.indexOf(input);
+            console.log(col);
+            var row = -1;
+
+            if(col != -1)
+            {
+               while(dataSource[++row].length <= col)
+               {
+                   col -= dataSource[row].length;
+               } 
+
+                drawResultTable(row);
+               
+            }else
+            {
+                int();
+            }
+
+         function   drawResultTable(row)
+            {
+                var table ="";
+
+table  += "<table border='1'>" +
+          "<thead>"+
+          "<tr>"+
+            "  <td>ID</td>"+
+            " <td>Name</td>"+
+            " <td>Faculty</td>"+
+            " <td>Image</td>"+
+            "</tr>"+
+           "</thead>"+
+           "<tbody>";
+           //table body
+           var counter= 0;
+        
+               var studentId = dataSource[row][0];
+               var studentName= dataSource[row][1];
+               var studentFaculty = dataSource[row][2];
+               var studentImagePath = dataSource[row][3];
+
+            table+= "<tr>";
+            table+= "<td>"+studentId+"</td>";
+            table+= "<td>"+studentName+"</td>";
+            table+= "<td>"+studentFaculty+"</td>";
+            table+= "<td><img src='images\\"+studentImagePath+"' width='60px' height='60px' alt='image of" +studentName+ "' ></td>";                 
+            table+="</tr>";      
+            
+            counter++;
+           
+           //#table body
+table+="</tbody>";
+table+=    " <tfoot>"+
+    "  <tr>"+
+        " <td colspan='4'>"+
+            "     Total No of Students: "+counter+
+            "   </td>"+
+            "  </tr>"+
+            "    </tfoot>"+
+            "</table>";
+
+  document.getElementById('myTable').innerHTML  = table;
+            }
+
+        }
+   </script>
     </body>
     </html>

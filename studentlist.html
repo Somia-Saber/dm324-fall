@@ -1,10 +1,14 @@
 <html>
     <head><title></title>
         <link rel="stylesheet" type="text/css" href="style.css">
- 
+        <script>
+            
+    var array = [['20132627','Yousef Samir Allam',"Faculty of Computers and Information Technology",'20132627.png'],['2019000','xyz',"Faculty of Computers and Information Technology",'20190000.png']];
+
+        </script>
     </head>
 
-    <body>
+    <body onload="init();">
         <nav>
             <ul>
                 <li ><a href="index.html"  >Home</a></li>
@@ -15,7 +19,7 @@
             </ul>
         
         
-        <nav>
+        </nav>
 <hr/>
 <section>
 
@@ -24,12 +28,15 @@
             <svg  focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
            </div>
         
-        <input type="search" class="searchbox">
+        <input type="search" id="txtSearch" name="search" class="searchbox" oninput="mySearch();">
       
             
     </div>
 
-<table border="1">
+    
+<div id="mytable"></div>
+
+<!-- <table border="1">
     <thead>
         <tr>
             <td>ID</td>
@@ -115,13 +122,106 @@
             </td>
         </tr>
     </tfoot>
-</table>
+</table> -->
 </section>
 <hr/>
 <!--footer-->
 <a href ="http://www.fue.edu.eg" target="_blank">&copy; Future University in Egypt</a>&nbsp;&nbsp;&mdash;&nbsp;&nbsp;
 <a href="mailto:20132627@fue.edu.eg">contact us</a>
 <!--#footer-->
+
+<!--Special Script-->
+<script>
+
+function mySearch() {
+
+   var flat = [].concat.apply([], array);
+   var col = flat.indexOf(document.getElementById('txtSearch').value);
+   console.log("col before: "+col);
+   
+   var row = -1;
+   console.log("row before: "+row);
+
+   if (col != -1) // found, now need to extract the row
+    while (array[++row].length <= col) // not this row
+    {
+     col -= array[row].length; // so adjust and try again
+    }
+    console.log("col after : "+col);
+    console.log("row after : "+row);
+  
+   if (col != -1 )
+        drawResultTable(array[row]);
+    else
+       // document.getElementById("mytable").innerHTML='Student Not Found';
+         init();
+         }
+
+function drawResultTable(array)
+{
+   var count = 1;
+    var mytable= '';
+    var studentId = array[0];
+    var studentName = array[1];
+    var studentFaculty = array[2];
+    var studentImagePath = array[3];
+    
+    mytable +='<table border = "1" >';
+    mytable +='<thead>';
+    mytable +='<tr>';
+    mytable+='<td>ID</td>';
+    mytable +='<td>Name</td>';
+    mytable +='<td>Faculty</td>';
+    mytable +='<td>Image</td>';                
+    mytable +='</tr>';    
+    mytable +='</thead>';
+    mytable+='<tbody>';
+       
+    mytable+='<tr><td>'+studentId+'</td>'+
+            '<td>'+studentName+'</td>'+
+            '<td>'+studentFaculty+'</td>'+
+            '<td>'+'<img src="images\\'+studentImagePath+'" width="60px" height="60px" alt = "image of '+studentName+'">'+'</td></tr>'
+      
+    mytable += '</tbody>';
+    mytable+='<tfoot><tr><td colspan="4">Total No of Students: '+count+'</td></tr></tfoot></table>';
+
+     document.getElementById("mytable").innerHTML=mytable;
+}
+ 
+  function init(){
+     var count = 0;
+    var mytable= '';
+    mytable +='<table border = "1" >';
+    mytable +='<thead>';
+    mytable +='<tr>';
+    mytable+='<td>ID</td>';
+    mytable +='<td>Name</td>';
+    mytable +='<td>Faculty</td>';
+    mytable +='<td>Image</td>';                
+    mytable +='</tr>';    
+    mytable +='</thead>';
+   mytable+='<tbody>';
+   
+        for (let i = 0; i < array.length; i++) {
+            var studentId = array[i][0];
+            var studentName = array[i][1];
+            var studentFaculty = array[i][2];
+            var studentImagePath = array[i][3];
+        
+           mytable+='<tr><td>'+studentId+'</td>'+
+            '<td>'+studentName+'</td>'+
+            '<td>'+studentFaculty+'</td>'+
+            '<td>'+'<img src="images\\'+studentImagePath+'" width="60px" height="60px" alt = "image of '+studentName+'">'+'</td></tr>'
+            count++;
+        }  
+    mytable += '</tbody>';
+    mytable+='<tfoot><tr><td colspan="4">Total No of Students: '+count+'</td></tr></tfoot></table>';
+
+     document.getElementById("mytable").innerHTML=mytable;
+
+  }
+
+</script>
 
     </body>
     </html>

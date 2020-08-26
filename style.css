@@ -1,3 +1,5 @@
+/*@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+*/
 .title{
     text-align: center; 
     color:4CAF50;
@@ -61,6 +63,7 @@ color: white;
     border-radius: 24px; /* changed from 30 to 15*/
     padding: 0px 10px;
     display: flexbox;
+   
 }
 
 .searchbar .searchicon svg{
@@ -74,12 +77,18 @@ color: white;
     fill: #9aa0a6;    
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
+
+
 .searchbar:hover{
     /*box-shadow: 0px 0px 2px dimgray;*/
     box-shadow:0 1px 6px 0 rgba(32,33,36,0.28);
-    border-color:rgba(223,225,229,0)
+    border-color:rgba(223,225,229,0);
+   
 }
+
+
 .searchbox{
 
     width: 100%;

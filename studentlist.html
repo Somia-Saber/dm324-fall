@@ -1,13 +1,14 @@
 <html>
     <head><title></title>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
       <script>
-         var dataSource = [["20132627","Yousef Samir Allam", "Faculty of Computers and Information Technology","20132627.png"],
-                           ["20190000","xyz","Faculty 2","20190000.png"],
-                           ["20181877","Abdalla Ahmed Elsayed Ahmed", "Faculty of Computers and Information Technology","20181877.png"] ];
+        //  var dataSource = [["20132627","Yousef Samir Allam", "Faculty of Computers and Information Technology","20132627.png"],
+        //                    ["20190000","xyz","Faculty 2","20190000.png"],
+        //                    ["20181877","Abdalla Ahmed Elsayed Ahmed", "Faculty of Computers and Information Technology","20181877.png"] ];
 
                           // document.writeln("<h1>Heading</h1>");
-           
       </script>
     </head>
 
@@ -33,10 +34,13 @@
         
         <input type="search" class="searchbox" id="txtSearch" oninput="mySearch()">
       
-            
+        <div class="searchicon" onclick="listen();">  <i class="material-icons">mic</i></div>
     </div>
 
+    
+    
     <div id="myTable"></div>
+
 
 </section>
 <hr/>
@@ -46,10 +50,55 @@
 <!--#footer-->
 
 <script>
-
+        var dataSource;
+    
         function init()
         {
-            var table ="";
+            dataSource = [];
+            loadJSON();
+       
+        }
+
+        function mySearch()
+        {
+         var input = document.getElementById('txtSearch').value;
+     //    console.log(input);
+         searchAlgorithm(input,dataSource);
+
+
+        }
+
+        function searchAlgorithm(input,data)
+        {
+            var flat = [].concat.apply([],data);
+        //    console.log(flat);
+            var col = flat.indexOf(input);
+        //    console.log(col);
+            var row = -1;
+
+            if(col != -1)
+            {
+               while(data[++row].length <= col)
+               {
+                   col -= data[row].length;
+               } 
+               var tempDataSource = [];
+               tempDataSource.push(data[row]);
+             
+               // console.log(tempDataSource);
+             
+               drawResultTable(tempDataSource);
+               
+            }else
+            {
+                init();
+            }
+        }
+        
+        function drawResultTable(data)
+            {
+                
+                var table ="";
 
 table  += "<table border='1'>" +
           "<thead>"+
@@ -63,12 +112,12 @@ table  += "<table border='1'>" +
            "<tbody>";
            //table body
            var counter= 0;
-           for (var i= 0;i <dataSource.length; i++)
+           for (var i= 0;i <data.length; i++)
            {
-               var studentId = dataSource[i][0];
-               var studentName= dataSource[i][1];
-               var studentFaculty = dataSource[i][2];
-               var studentImagePath = dataSource[i][3];
+               var studentId = data[i][0];
+               var studentName= data[i][1];
+               var studentFaculty = data[i][2];
+               var studentImagePath = data[i][3];
 
             table+= "<tr>";
             table+= "<td>"+studentId+"</td>";
@@ -91,86 +140,48 @@ table+=    " <tfoot>"+
             "</table>";
 
   document.getElementById('myTable').innerHTML  = table;
-
         }
-
-        function mySearch()
-        {
-         var input = document.getElementById('txtSearch').value;
-         console.log(input);
-       searchAlgorithm(input);
-
-
-        }
-
-        function searchAlgorithm(input)
-        {
-            var flat = [].concat.apply([],dataSource);
-            console.log(flat);
-            var col = flat.indexOf(input);
-            console.log(col);
-            var row = -1;
-
-            if(col != -1)
-            {
-               while(dataSource[++row].length <= col)
-               {
-                   col -= dataSource[row].length;
-               } 
-
-                drawResultTable(row);
-               
-            }else
-            {
-                init();
-            }
-
-         function   drawResultTable(row)
-            {
-                var table ="";
-
-table  += "<table border='1'>" +
-          "<thead>"+
-          "<tr>"+
-            "  <td>ID</td>"+
-            " <td>Name</td>"+
-            " <td>Faculty</td>"+
-            " <td>Image</td>"+
-            "</tr>"+
-           "</thead>"+
-           "<tbody>";
-           //table body
-           var counter= 0;
-        
-               var studentId = dataSource[row][0];
-               var studentName= dataSource[row][1];
-               var studentFaculty = dataSource[row][2];
-               var studentImagePath = dataSource[row][3];
-
-            table+= "<tr>";
-            table+= "<td>"+studentId+"</td>";
-            table+= "<td>"+studentName+"</td>";
-            table+= "<td>"+studentFaculty+"</td>";
-            table+= "<td><img src='images\\"+studentImagePath+"' width='60px' height='60px' alt='image of" +studentName+ "' ></td>";                 
-            table+="</tr>";      
-            
-            counter++;
+       
+        //Ajax Example
+        function  loadJSON() {
+            var data_file = "data.json";
+            var http_request = new XMLHttpRequest();
+            var tempDataSource = [];
+            http_request.onreadystatechange = function(){
+                if (http_request.readyState == 4  ) {
+                  var jsonObj = JSON.parse(http_request.responseText);
+             
+                  var studentArray = [];
+                
+                  for (let i = 0; i < jsonObj.students.length; i++) {
+                    var Student = jsonObj.students[i];
+                    //   console.log(student);
+                    studentArray.push(Student.id);
+                    studentArray.push(Student.name);
+                    studentArray.push(Student.faculty);
+                    studentArray.push(Student.image_path);
+                    tempDataSource.push(studentArray);
            
-           //#table body
-table+="</tbody>";
-table+=    " <tfoot>"+
-    "  <tr>"+
-        " <td colspan='4'>"+
-            "     Total No of Students: "+counter+
-            "   </td>"+
-            "  </tr>"+
-            "    </tfoot>"+
-            "</table>";
+             //       console.log("student: "+student);
+             //       console.log(tempDataSource);
 
-  document.getElementById('myTable').innerHTML  = table;
+                    studentArray = []; 
+                  }
+                  
+               dataSource = tempDataSource;
+               drawResultTable(dataSource);
             }
-
+        }   			
+            http_request.open("GET", data_file, true);
+            http_request.send();
+  
         }
-   </script>
+
+        function listen()
+        {
+            window.alert('listening');
+        }
+  
+  </script>
     </body>
     </html>

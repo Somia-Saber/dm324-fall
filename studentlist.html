@@ -144,7 +144,7 @@ table+=    " <tfoot>"+
        
         //Ajax Example
         function  loadJSON() {
-            var data_file = "data.json";
+            var data_file =  "http://localhost/dm324-summer/api/get_all_students.php" ;//"data.json";
             var http_request = new XMLHttpRequest();
             var tempDataSource = [];
             http_request.onreadystatechange = function(){
@@ -179,7 +179,45 @@ table+=    " <tfoot>"+
 
         function listen()
         {
-            window.alert('listen');
+            if(!('webkitSpeechRecognition' in window))
+            {
+                window.alert('not listening');
+            }else
+            {
+
+                var recognition = new webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.lang = "en-US";                
+                recognition.start();
+                
+                final_script = '';
+                recognition.onstart = function (){
+                    window.alert('listening');
+                }
+
+                recognition.onresult = function(event){
+
+                    console.log(event.results);
+
+                    for ( var i = event.resultIndex; i < event.results.length; ++i )
+                    {
+                        if (event.results[i].isFinal)
+                        {
+                            final_script += event.results[i][0].transcript;
+                        }
+
+                    }
+                document.getElementById('txtSearch').value = final_script;
+                mySearch();
+                final_script = '';
+
+                }
+
+
+
+
+                
+            }
         }
   
   </script>

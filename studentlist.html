@@ -144,22 +144,22 @@ table+=    " <tfoot>"+
        
         //Ajax Example
         function  loadJSON() {
-            var data_file = "data.json";
+            var data_file = "api/get_all_students.php";//data.json";
             var http_request = new XMLHttpRequest();
             var tempDataSource = [];
             http_request.onreadystatechange = function(){
                 if (http_request.readyState == 4  ) {
                   var jsonObj = JSON.parse(http_request.responseText);
-             
+                
                   var studentArray = [];
                 
-                  for (let i = 0; i < jsonObj.students.length; i++) {
-                    var Student = jsonObj.students[i];
-                    //   console.log(student);
-                    studentArray.push(Student.id);
-                    studentArray.push(Student.name);
-                    studentArray.push(Student.faculty);
-                    studentArray.push(Student.image_path);
+                  for (let i = 0; i < jsonObj.length; i++) {
+                    var Student = jsonObj[i];
+                       console.log(Student);
+                    studentArray.push(Student.students_university_id);
+                    studentArray.push(Student.students_name);
+                    studentArray.push(Student.students_faculty);
+                    studentArray.push(Student.students_imagePath);
                     tempDataSource.push(studentArray);
            
              //       console.log("student: "+student);

@@ -1,8 +1,19 @@
 <?php
 
+include ('db_connection.php');
 
+$sql = "SELECT * FROM students";
 
+$result = $conn->query($sql);
 
+$dataSource = [];
+while($student = mysqli_fetch_assoc($result))
+{
+  //  echo($student);
+    $dataSource[] = $student;
+}
+
+print json_encode($dataSource);
 
 
 

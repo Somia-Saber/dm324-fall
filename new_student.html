@@ -21,7 +21,7 @@
 <hr/>
 <section>
     <h1 class="title">New Student</h1>
-<form action="api/add_new_student.php" method="POST" > <!--action_page.php-->
+<!--<form action="api/add_new_student.php" method="POST" > --><!--action_page.php-->
  <!--Personal Info-->
  <fieldset >
     <legend>Personal Information</legend>
@@ -43,7 +43,7 @@
 <p>
     <label>
         Gender: 
-        <input type="radio" name="gender" value="male">
+        <input type="radio" name="gender" value="male" required>
         Male
         <input type="radio" name="gender" value="female">
         Female
@@ -96,9 +96,9 @@
 </label></p>
 </fieldset>
 
-<input type="submit" class="button" value="Add" name="add">
+<input type="submit" class="button" value="Add" name="add" onclick="insertNewStudent();">
 
-</form>
+<!--</form>-->
 
 </section>   
 <hr/>
@@ -106,6 +106,43 @@
  <a href ="http://www.fue.edu.eg" target="_blank">&copy; Future University in Egypt</a>&nbsp;&nbsp;&mdash;&nbsp;&nbsp;
  <a href="mailto:20132627@fue.edu.eg">contact us</a>
 </footer>
+
+
+
+<script>
+    
+        //Ajax Example
+        function  insertNewStudent() {
+
+           var full_name =  document.getElementsByName('txtFullName')[0].value ;
+           var birthdate =  document.getElementsByName('txtBirthDate')[0].value ;
+           var gender =  document.getElementsByName('gender')[0].value ;
+           var email =  document.getElementsByName('txtEmail')[0].value ;
+           var phone =  document.getElementsByName('txtPhone')[0].value ;
+           var address =  document.getElementsByName('txtAddress')[0].value ;
+           var faculty =  document.getElementsByName('faculty')[0].value ;
+          
+          console.log(full_name);
+
+            var data  = {txtFullName:full_name,txtBirthDate:birthdate,gender:gender,txtEmail:email,txtPhone:phone,txtAddress:address,faculty:faculty};
+          
+            var post_url = "api/add_new_student.php"
+            var http_request = new XMLHttpRequest();
+          
+            http_request.onreadystatechange = function(){
+                if (http_request.readyState == 4  ) {
+                  var responseText = http_request.responseText;
+                    alert(responseText);
+           
+            }
+        }   			
+            http_request.open("POST", post_url, true);
+            http_request.send(JSON.stringify(data));
+  
+        }
+
+
+</script>
 
 </body>
 

@@ -2,7 +2,7 @@
 include ('db_connection.php');
 
 
-if(isset($_POST['add']))
+if(isset($_POST['gender']))
 {
 $full_name = $_POST['txtFullName'];
 $birth_date = $_POST['txtBirthDate'];
@@ -25,6 +25,7 @@ if (mysqli_query($conn,$sql))
 
 mysqli_close($conn);
 
+
 echo($full_name);
 echo($birth_date);
 echo($gender);
@@ -35,6 +36,8 @@ echo($faculty);
 }
 else{
     echo("this is not a form visit");
+    $full_name = $_POST['txtFullName'];
+    echo($full_name);
 }
 
 ?>

@@ -16,6 +16,8 @@ while($student = mysqli_fetch_assoc($result))
 print json_encode($dataSource);
 
 
+mysqli_close($conn);
+
 
 
 

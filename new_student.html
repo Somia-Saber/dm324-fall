@@ -10,8 +10,8 @@
         <nav>
             <ul>
                 <li ><a href="index.html"  >Home</a></li>
-                <li ><a href="studentlist.html" >Student List</a></li>
-                <li ><a href="new_student.html" class="active">New Student List</a></li>
+                <li ><a href="studentlist.html" >Students List</a></li>
+                <li ><a href="new_student.html" class="active">New Student</a></li>
         
                 <li class="nav-right"><a href="sign.html">Logout</a></li>
             </ul>
@@ -21,7 +21,7 @@
 <hr/>
 <section>
     <h1 class="title">New Student</h1>
-<form action="#" method="GET" > <!--action_page.php-->
+<form action="api/add_new_student.php" method="POST" > <!--action_page.php-->
  <!--Personal Info-->
  <fieldset >
     <legend>Personal Information</legend>
@@ -29,7 +29,7 @@
     <p>
     <label>
         Full Name: 
-        <input type="text" name="txtFullName">
+        <input type="text" name="txtFullName" required> 
 
     </label>
 </p>
@@ -96,7 +96,7 @@
 </label></p>
 </fieldset>
 
-<input type="submit" class="button" value="Add">
+<input type="submit" class="button" value="Add" name="add">
 
 </form>
 
